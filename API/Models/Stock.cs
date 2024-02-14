@@ -19,5 +19,7 @@ public class Stock
 
     public long MarkeyCap {get;set;}
 
+    public List<Comment> comments{get;set;} = new List<Comment>();
+
 
 }

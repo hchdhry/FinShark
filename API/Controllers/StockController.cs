@@ -2,6 +2,8 @@
 using API.Data;
 using Microsoft.EntityFrameworkCore;
 using API.Models;
+using API.Mappers;
+using API.Dtos.Stock;
 namespace API.Controllers{
     [Route("api/stock")]
     [ApiController]
@@ -15,14 +17,14 @@ namespace API.Controllers{
    [HttpGet]
    public IActionResult GetAll()
    {
-    var allstocks =_dbcontext.Stock.ToList();
+    var allstocks =_dbcontext.Stock.ToList().Select(stock => stock.ToStockDto());
     return Ok(allstocks);
    }
    [HttpGet("{id}")]
 
    public IActionResult GetById([FromRoute]int id)
    {
-        Stock stock = _dbcontext.Stock.Find(id);
+        StockDto? stock = _dbcontext.Stock.Find(id).ToStockDto();
         if (stock == null)
         {
             return NotFound();
