@@ -31,6 +31,15 @@ namespace API.Controllers{
         }
         return Ok(stock);
    }
+    [HttpPost]
+    public IActionResult Create([FromBody] CreateStockDto stockDto)
+    {
+        var stock = stockDto.ToStockFromCreateDto();
+        _dbcontext.Stock.Add(stock);
+        _dbcontext.SaveChanges();
+        return CreatedAtAction(nameof(GetById), new { id = stock.Id }, stock.ToStockDto());
+      
+    }
 
 
 
