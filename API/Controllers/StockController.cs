@@ -15,28 +15,31 @@ namespace API.Controllers{
     _dbcontext = Context;
    }
    [HttpGet]
-   public IActionResult GetAll()
+   public async Task<IActionResult> GetAll()
    {
-    var allstocks =_dbcontext.Stock.ToList().Select(stock => stock.ToStockDto());
-    return Ok(allstocks);
+    var allstocks = await _dbcontext.Stock.ToListAsync();
+    
+    var StockDto = allstocks.Select(stock => stock.ToStockDto());
+    return Ok(StockDto);
    }
    [HttpGet("{id}")]
 
-   public IActionResult GetById([FromRoute]int id)
+   public async Task<IActionResult> GetById([FromRoute]int id)
    {
-        StockDto? stock = _dbcontext.Stock.Find(id).ToStockDto();
+        var stock = await _dbcontext.Stock.FindAsync(id);
+       
         if (stock == null)
         {
             return NotFound();
         }
-        return Ok(stock);
+        return Ok(stock.ToStockDto());
    }
     [HttpPost]
-    public IActionResult Create([FromBody] CreateStockDto stockDto)
+    public async Task<IActionResult> Create([FromBody] CreateStockDto stockDto)
     {
         var stock = stockDto.ToStockFromCreateDto();
-        _dbcontext.Stock.Add(stock);
-        _dbcontext.SaveChanges();
+       await _dbcontext.Stock.AddAsync(stock);
+        await _dbcontext.SaveChangesAsync();
         return CreatedAtAction(nameof(GetById), new { id = stock.Id }, stock.ToStockDto());
       
     }
@@ -44,9 +47,9 @@ namespace API.Controllers{
     [HttpPut]
     [Route("{id}")]
 
-    public IActionResult Update([FromRoute] int id, [FromBody] UpdateStockDto stock)
+    public async Task<IActionResult> Update([FromRoute] int id, [FromBody] UpdateStockDto stock)
     {
-        var stockToUpdate = _dbcontext.Stock.FirstOrDefault(u=>u.Id == id);
+        var stockToUpdate =await _dbcontext.Stock.FirstOrDefaultAsync(u=>u.Id == id);
         if(stockToUpdate == null)
         {
             return NotFound();
@@ -57,20 +60,20 @@ namespace API.Controllers{
         stockToUpdate.MarkeyCap = stock.MarkeyCap;
         stockToUpdate.Purchase = stock.Purchase;
         stockToUpdate.Industry = stock.Industry;
-        _dbcontext.SaveChanges();
+       await _dbcontext.SaveChangesAsync();
         return Ok(stockToUpdate.ToStockDto());
     }
 [HttpDelete]
 [Route("{id}")]
-    public IActionResult Delete([FromRoute] int id)
+    public async Task<IActionResult> Delete([FromRoute] int id)
     {
-        Stock StockToDelete = _dbcontext.Stock.FirstOrDefault(u => u.Id == id);
+        Stock StockToDelete = await _dbcontext.Stock.FirstOrDefaultAsync(u => u.Id == id);
         if (StockToDelete == null)
         {
             return NotFound();
         }
         _dbcontext.Stock.Remove(StockToDelete);
-        _dbcontext.SaveChanges();
+        await _dbcontext.SaveChangesAsync();
         return NoContent();
     }
 
