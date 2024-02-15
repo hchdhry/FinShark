@@ -4,20 +4,24 @@ using Microsoft.EntityFrameworkCore;
 using API.Models;
 using API.Mappers;
 using API.Dtos.Stock;
+using API.Repository;
+using API.interfaces;
 namespace API.Controllers{
     [Route("api/stock")]
     [ApiController]
     public class StockController:ControllerBase
 {
     private readonly ApplicationDBContext _dbcontext;
-   public StockController(ApplicationDBContext Context)
+        private readonly IStockRepository _Stockrepo;
+        public StockController(ApplicationDBContext Context, IStockRepository stockRepository)
    {
     _dbcontext = Context;
+    _Stockrepo =stockRepository;
    }
    [HttpGet]
    public async Task<IActionResult> GetAll()
    {
-    var allstocks = await _dbcontext.Stock.ToListAsync();
+    var allstocks = await _Stockrepo.getAllAsync();
     
     var StockDto = allstocks.Select(stock => stock.ToStockDto());
     return Ok(StockDto);

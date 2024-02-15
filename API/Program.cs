@@ -1,4 +1,6 @@
 using API.Data;
+using API.interfaces;
+using API.Repository;
 using Microsoft.EntityFrameworkCore;
 
 
@@ -9,6 +11,7 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddControllers();
 builder.Services.AddSwaggerGen();
+builder.Services.AddScoped<IStockRepository,StockRepository>();
 builder.Services.AddDbContext<ApplicationDBContext>(options =>{
 options.UseNpgsql(builder.Configuration.GetConnectionString("DefaultConnection"));
 });
@@ -24,10 +27,6 @@ if (app.Environment.IsDevelopment())
 
 app.UseHttpsRedirection();
 
-var summaries = new[]
-{
-    "Freezing", "Bracing", "Chilly", "Cool", "Mild", "Warm", "Balmy", "Hot", "Sweltering", "Scorching"
-};
 
 
 app.MapControllers();
