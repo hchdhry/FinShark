@@ -22,7 +22,7 @@ namespace API.Repository{
             return stock;
 
         }
-
+//test//
         public async Task<Stock> DeleteAsync(int id)
         {
             var StockToDelete = await _DBContext.Stock.FirstOrDefaultAsync(u => u.Id == id);
