@@ -6,6 +6,8 @@ public interface ICommentRepository
 {
 
     public Task<List<Comment>> GetAll();
+
+    public Task<Comment> GetAsync(int id);
     
 
 }

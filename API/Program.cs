@@ -12,6 +12,7 @@ builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddControllers();
 builder.Services.AddSwaggerGen();
 builder.Services.AddScoped<IStockRepository,StockRepository>();
+builder.Services.AddScoped<ICommentRepository, CommentRepository>();
 builder.Services.AddDbContext<ApplicationDBContext>(options =>{
 options.UseNpgsql(builder.Configuration.GetConnectionString("DefaultConnection"));
 });
