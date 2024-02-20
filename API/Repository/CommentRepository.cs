@@ -12,6 +12,13 @@ namespace API.Repository{
             _DBContext =  DBContext;
         }
 
+        public async Task<Comment> CreateAsync(Comment comment)
+        {
+            await _DBContext.Comments.AddAsync(comment);
+            await _DBContext.SaveChangesAsync();
+            return comment;
+        }
+
         public async Task<List<Comment>> GetAll()
         {
            return await _DBContext.Comments.ToListAsync();
@@ -21,6 +28,8 @@ namespace API.Repository{
         {
             return await _DBContext.Comments.FindAsync(id);
         }
+
+      
       
     }
 }

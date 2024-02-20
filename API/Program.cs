@@ -8,6 +8,7 @@ var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
+
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddControllers();
 builder.Services.AddSwaggerGen();
@@ -16,6 +17,7 @@ opt.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHand
 );
 builder.Services.AddScoped<IStockRepository,StockRepository>();
 builder.Services.AddScoped<ICommentRepository, CommentRepository>();
+AppContext.SetSwitch("Npgsql.EnableLegacyTimestampBehavior", true);
 builder.Services.AddDbContext<ApplicationDBContext>(options =>{
 options.UseNpgsql(builder.Configuration.GetConnectionString("DefaultConnection"));
 });

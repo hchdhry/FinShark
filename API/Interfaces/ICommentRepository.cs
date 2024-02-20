@@ -8,6 +8,8 @@ public interface ICommentRepository
     public Task<List<Comment>> GetAll();
 
     public Task<Comment> GetAsync(int id);
+
+    public Task<Comment> CreateAsync(Comment comment);
     
 
 }
