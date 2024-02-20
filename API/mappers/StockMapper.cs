@@ -15,7 +15,8 @@ namespace API.Mappers
             CompanyName = stock.CompanyName,
             MarkeyCap = stock.MarkeyCap,
             Purchase = stock.Purchase,
-            Industry = stock.Industry
+            Industry = stock.Industry,
+            Comments = stock.comments.Select(c=>c.ToCommentDto()).ToList()
                         
             };
             

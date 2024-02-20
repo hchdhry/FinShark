@@ -1,4 +1,5 @@
-﻿namespace API.Dtos.Stock{
+﻿using API.Dtos.Comment;
+namespace API.Dtos.Stock{
 
 public class StockDto
 {
@@ -15,6 +16,8 @@ public class StockDto
         public string Industry { get; set; } = string.Empty;
 
         public long MarkeyCap { get; set; }
+
+        public List<CommentDto> Comments{get;set;}
 
     }
 }
