@@ -10,6 +10,8 @@ public interface ICommentRepository
     public Task<Comment> GetAsync(int id);
 
     public Task<Comment> CreateAsync(Comment comment);
+
+    public Task<Comment> DeleteAsync(int id);
     
 
 }
