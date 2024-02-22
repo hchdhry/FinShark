@@ -24,7 +24,11 @@ namespace API.Controllers{
     [HttpGet("{id}")]
     public async Task<IActionResult> GetById([FromRoute]int id)
     {
-        var  Comment = await _CommentRepo.GetAsync(id);
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+            var  Comment = await _CommentRepo.GetAsync(id);
         if(Comment == null)
         {
             return NotFound();
@@ -35,6 +39,10 @@ namespace API.Controllers{
         [HttpGet]
         public async Task<IActionResult> GetAll()
         {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
             var allComments = await _CommentRepo.GetAll();
             if (allComments == null)
             {
@@ -48,7 +56,11 @@ namespace API.Controllers{
         [HttpPost("{StockId}")]
         public async Task<IActionResult> Create([FromRoute]int StockId,[FromBody]CreateCommentDto comment)
         {
-            if(!await _StockRepo.StockExistsAsync(StockId))
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+            if (!await _StockRepo.StockExistsAsync(StockId))
             {
                 return BadRequest("stock does not exist");
             }
@@ -60,13 +72,20 @@ namespace API.Controllers{
         [Route("id")]
         public async Task<IActionResult> Delete(int id)
         {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
             var commentToDelete = await _CommentRepo.DeleteAsync(id);
             if (commentToDelete == null)
             {
                 return NotFound();
             }
-            return Ok(commentToDelete);
+            return NoContent();
         }
+
+       
+        
 
 
 
