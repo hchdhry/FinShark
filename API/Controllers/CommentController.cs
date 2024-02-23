@@ -3,6 +3,7 @@ using API.Data;
 using Microsoft.EntityFrameworkCore;
 using API.Models;
 using API.Mappers;
+using API.Dtos.Comment;
 using API.Dtos.Stock;
 using API.Repository;
 using API.interfaces;
@@ -82,6 +83,19 @@ namespace API.Controllers{
                 return NotFound();
             }
             return NoContent();
+        }
+
+        [HttpPut]
+        [Route("{id}")]
+        public async Task<IActionResult> Update(int id,[FromBody] UpdateCommentDto dto )
+        {
+            var comment = await _CommentRepo.UpdateAsync(id,dto.ToCommentFromUpdate());
+            if(comment == null)
+            {
+               return NotFound("not found");
+
+            }
+            return Ok(comment.ToCommentDto());
         }
 
        

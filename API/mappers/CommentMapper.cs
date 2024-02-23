@@ -29,5 +29,15 @@ public static class CommentMapper
             };
         }
 
+        public static Comment ToCommentFromUpdate(this UpdateCommentDto comment)
+        {
+            return new Comment
+            {
+
+                Title = comment.Title,
+                Content = comment.Content,
+            };
+        }
+
     }
 }
