@@ -1,5 +1,6 @@
 ﻿using API.Data;
 using API.Dtos.Stock;
+using API.Helpers;
 using API.interfaces;
 using API.Models;
 using Microsoft.AspNetCore.Http.HttpResults;
@@ -22,7 +23,7 @@ namespace API.Repository{
             return stock;
 
         }
-//test//
+
         public async Task<Stock> DeleteAsync(int id)
         {
             var StockToDelete = await _DBContext.Stock.FirstOrDefaultAsync(u => u.Id == id);
@@ -36,9 +37,18 @@ namespace API.Repository{
 
         }
 
-        public Task<List<Stock>> getAllAsync()
+        public async Task<List<Stock>> getAllAsync(QueryObject query)
         {
-            return  _DBContext.Stock.Include(c=>c.comments).ToListAsync();
+            var stock = _DBContext.Stock.Include(c=>c.comments).AsQueryable();
+            if(!string.IsNullOrWhiteSpace(query.CompanyName))
+            {
+                stock = stock.Where(c => c.CompanyName.Contains(query.CompanyName)); 
+            }
+            if (!string.IsNullOrWhiteSpace(query.Symbol))
+            {
+                stock = stock.Where(c => c.Symbol.Contains(query.Symbol));
+            }
+            return await stock.ToListAsync();
         }
 
         public async Task<Stock?> getById(int id)

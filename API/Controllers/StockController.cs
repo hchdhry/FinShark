@@ -6,6 +6,7 @@ using API.Mappers;
 using API.Dtos.Stock;
 using API.Repository;
 using API.interfaces;
+using API.Helpers;
 namespace API.Controllers{
     [Route("api/stock")]
     [ApiController]
@@ -19,13 +20,13 @@ namespace API.Controllers{
     _Stockrepo =stockRepository;
    }
    [HttpGet]
-   public async Task<IActionResult> GetAll()
+   public async Task<IActionResult> GetAll([FromQuery] QueryObject query)
    {
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
-            }
-            var allstocks = await _Stockrepo.getAllAsync();
+            };
+            var allstocks = await _Stockrepo.getAllAsync(query);
     
     var StockDto = allstocks.Select(stock => stock.ToStockDto());
     return Ok(StockDto);

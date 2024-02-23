@@ -1,4 +1,5 @@
 ﻿using API.Dtos.Stock;
+using API.Helpers;
 using API.Models;
 using Microsoft.AspNetCore.Mvc;
 
@@ -6,7 +7,7 @@ namespace API.interfaces
 {
     public interface IStockRepository
     {
-        public Task<List<Stock>> getAllAsync();
+        public Task<List<Stock>> getAllAsync(QueryObject query);
 
         public Task<Stock?> getById(int id);
 
