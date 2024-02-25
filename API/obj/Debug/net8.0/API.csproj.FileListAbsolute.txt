@@ -108,3 +108,14 @@
 /Users/hassan/dotnet/FinShark/API/bin/Debug/net8.0/Microsoft.AspNetCore.Mvc.NewtonsoftJson.dll
 /Users/hassan/dotnet/FinShark/API/bin/Debug/net8.0/Newtonsoft.Json.dll
 /Users/hassan/dotnet/FinShark/API/bin/Debug/net8.0/Newtonsoft.Json.Bson.dll
+/Users/hassan/dotnet/FinShark/API/bin/Debug/net8.0/DotNetEnv.dll
+/Users/hassan/dotnet/FinShark/API/bin/Debug/net8.0/Microsoft.AspNetCore.Authentication.JwtBearer.dll
+/Users/hassan/dotnet/FinShark/API/bin/Debug/net8.0/Microsoft.AspNetCore.Identity.EntityFrameworkCore.dll
+/Users/hassan/dotnet/FinShark/API/bin/Debug/net8.0/Microsoft.IdentityModel.Abstractions.dll
+/Users/hassan/dotnet/FinShark/API/bin/Debug/net8.0/Microsoft.IdentityModel.JsonWebTokens.dll
+/Users/hassan/dotnet/FinShark/API/bin/Debug/net8.0/Microsoft.IdentityModel.Logging.dll
+/Users/hassan/dotnet/FinShark/API/bin/Debug/net8.0/Microsoft.IdentityModel.Protocols.dll
+/Users/hassan/dotnet/FinShark/API/bin/Debug/net8.0/Microsoft.IdentityModel.Protocols.OpenIdConnect.dll
+/Users/hassan/dotnet/FinShark/API/bin/Debug/net8.0/Microsoft.IdentityModel.Tokens.dll
+/Users/hassan/dotnet/FinShark/API/bin/Debug/net8.0/Sprache.dll
+/Users/hassan/dotnet/FinShark/API/bin/Debug/net8.0/System.IdentityModel.Tokens.Jwt.dll
