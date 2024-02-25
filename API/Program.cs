@@ -1,3 +1,4 @@
+using API;
 using API.Data;
 using API.interfaces;
 using API.Models;
@@ -21,6 +22,7 @@ builder.Services.AddSwaggerGen();
 builder.Services.AddControllers().AddNewtonsoftJson(opt=>
 opt.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore
 );
+builder.Services.AddScoped<ITokenService, TokenService>();
 builder.Services.AddScoped<IStockRepository,StockRepository>();
 builder.Services.AddScoped<ICommentRepository, CommentRepository>();
 AppContext.SetSwitch("Npgsql.EnableLegacyTimestampBehavior", true);

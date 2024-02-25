@@ -11,8 +11,10 @@ namespace API.Controllers{
 public class AccountController:ControllerBase
 {
     private readonly UserManager<AppUser> _userManager;
-    public AccountController(UserManager<AppUser> userManager)
+    private readonly ITokenService _TokenService;
+    public AccountController(UserManager<AppUser> userManager,ITokenService tokenService)
     {
+        _TokenService = tokenService;
         _userManager = userManager;
     }
     [HttpPost("register")]
@@ -35,7 +37,11 @@ public class AccountController:ControllerBase
                 var role = await _userManager.AddToRoleAsync(AppUser,"User");
                     if(role.Succeeded)
                     {
-                        return Ok("User created");
+                        return Ok(new NewUserDto{
+                            UserName = AppUser.UserName,
+                            Email = AppUser.Email,
+                            token = _TokenService.CreateToken(AppUser)
+                        });
                     }
                     else{return BadRequest();}
             }
