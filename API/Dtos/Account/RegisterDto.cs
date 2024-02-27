@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace API;
+namespace API.Dtos.Account{
 
 public class RegisterDto
 {
@@ -13,4 +13,5 @@ public class RegisterDto
     [Required]
     public string? Password { get; set; }
 
+}
 }
