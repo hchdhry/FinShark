@@ -2,7 +2,7 @@
 using Microsoft.AspNetCore.Mvc.ModelBinding;
 
 namespace API.Models;
-
+[Table("Stock")]
 public class Stock
 {
     public int Id { get; set; }
@@ -20,6 +20,7 @@ public class Stock
     public long MarkeyCap {get;set;}
 
     public List<Comment> comments{get;set;} = new List<Comment>();
+    public List<Portfolio> portfolios { get; set; } = new List<Portfolio>();
 
 
 }
