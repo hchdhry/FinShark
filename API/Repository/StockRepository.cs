@@ -67,6 +67,11 @@ namespace API.Repository
 
         }
 
+        public async Task<Stock?> getBySymbol(string symbol)
+        {
+           return await _DBContext.Stock.FirstOrDefaultAsync(u => u.Symbol == symbol);
+        }
+
         public Task<bool> StockExistsAsync(int id)
         {
             return _DBContext.Stock.AnyAsync(u => u.Id == id);
@@ -89,5 +94,7 @@ namespace API.Repository
             await _DBContext.SaveChangesAsync();
             return stockToUpdate;
         }
+
+       
     }
 }

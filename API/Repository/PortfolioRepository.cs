@@ -14,6 +14,14 @@ public class PortfolioRepository : IPortfolioRepository
         _dbcontext = dBContext;
       
     }
+
+    public async Task<Portfolio> CreateAsync(Portfolio portfolio)
+    {
+      await _dbcontext.portfolios.AddAsync(portfolio);
+      await _dbcontext.SaveChangesAsync();
+      return portfolio;
+    }
+
     public async Task<List<Stock>> GetUserPortfolio(AppUser user)
     {
         return await _dbcontext.portfolios.Where(u => u.AppUserId == user.Id)
