@@ -29,5 +29,6 @@ public class PortfolioController:ControllerBase
             var userPortfolio = await _portfolioRepository.GetUserPortfolio(appUser);
             return Ok(userPortfolio);
         }
+      
     }
 }
