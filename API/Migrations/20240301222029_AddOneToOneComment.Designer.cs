@@ -3,6 +3,7 @@ using System;
 using API.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
@@ -11,9 +12,11 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace API.Migrations
 {
     [DbContext(typeof(ApplicationDBContext))]
-    partial class ApplicationDBContextModelSnapshot : ModelSnapshot
+    [Migration("20240301222029_AddOneToOneComment")]
+    partial class AddOneToOneComment
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -94,7 +97,10 @@ namespace API.Migrations
 
                     NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
 
-                    b.Property<string>("AppUserId")
+                    b.Property<int>("AppUserId")
+                        .HasColumnType("integer");
+
+                    b.Property<string>("AppUserId1")
                         .HasColumnType("text");
 
                     b.Property<string>("Content")
@@ -113,7 +119,7 @@ namespace API.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("AppUserId");
+                    b.HasIndex("AppUserId1");
 
                     b.HasIndex("StockId");
 
@@ -197,13 +203,13 @@ namespace API.Migrations
                     b.HasData(
                         new
                         {
-                            Id = "273d073b-b1ef-45d4-85c9-6ff49aae768b",
+                            Id = "bebb39ff-10e6-480c-8bd3-315c560f8416",
                             Name = "Admin",
                             NormalizedName = "ADMIN"
                         },
                         new
                         {
-                            Id = "b5ebcdb5-9646-46e2-93ee-524f193fd794",
+                            Id = "2dbf9767-b794-4842-8680-e6ffd26aff39",
                             Name = "User",
                             NormalizedName = "USER"
                         });
@@ -319,15 +325,15 @@ namespace API.Migrations
                 {
                     b.HasOne("API.Models.AppUser", "AppUser")
                         .WithMany()
-                        .HasForeignKey("AppUserId");
+                        .HasForeignKey("AppUserId1");
 
-                    b.HasOne("API.Models.Stock", "Stock")
+                    b.HasOne("API.Models.Stock", "stock")
                         .WithMany("comments")
                         .HasForeignKey("StockId");
 
                     b.Navigation("AppUser");
 
-                    b.Navigation("Stock");
+                    b.Navigation("stock");
                 });
 
             modelBuilder.Entity("API.Models.Portfolio", b =>
