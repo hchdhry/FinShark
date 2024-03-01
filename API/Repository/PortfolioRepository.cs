@@ -22,6 +22,20 @@ public class PortfolioRepository : IPortfolioRepository
       return portfolio;
     }
 
+    public async Task<Portfolio> DeleteAsync(AppUser appUser, string symbol)
+    {
+        var portfolioModel = await _dbcontext.portfolios.FirstOrDefaultAsync(x => x.AppUserId == appUser.Id && x.stock.Symbol.ToLower() == symbol.ToLower());
+
+        if (portfolioModel == null)
+        {
+            return null;
+        }
+
+        _dbcontext.portfolios.Remove(portfolioModel);
+        await _dbcontext.SaveChangesAsync();
+        return portfolioModel;
+    }
+
     public async Task<List<Stock>> GetUserPortfolio(AppUser user)
     {
         return await _dbcontext.portfolios.Where(u => u.AppUserId == user.Id)
@@ -36,4 +50,6 @@ public class PortfolioRepository : IPortfolioRepository
         }).ToListAsync();
         
     }
+
+   
 }
