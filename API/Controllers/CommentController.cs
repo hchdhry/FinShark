@@ -7,6 +7,9 @@ using API.Dtos.Comment;
 using API.Dtos.Stock;
 using API.Repository;
 using API.interfaces;
+using Microsoft.AspNetCore.Identity;
+using API.Extensions;
+using Microsoft.AspNetCore.Authorization;
 
 
 namespace API.Controllers{
@@ -16,11 +19,13 @@ namespace API.Controllers{
 {
     private readonly ICommentRepository _CommentRepo;
     private readonly IStockRepository _StockRepo;
+    private readonly UserManager<AppUser> _userManager;
 
-    public CommentController(ICommentRepository commentRepository, IStockRepository stockRepository)
+    public CommentController(ICommentRepository commentRepository, IStockRepository stockRepository,UserManager<AppUser> userManager)
     {
         _StockRepo   = stockRepository;
         _CommentRepo = commentRepository;
+        _userManager = userManager;
     }
 
     [HttpGet("{id}")]
@@ -56,6 +61,7 @@ namespace API.Controllers{
 
         }
         [HttpPost("{StockId}")]
+        [Authorize]
         public async Task<IActionResult> Create([FromRoute]int StockId,[FromBody]CreateCommentDto comment)
         {
             if (!ModelState.IsValid)
@@ -64,9 +70,15 @@ namespace API.Controllers{
             }
             if (!await _StockRepo.StockExistsAsync(StockId))
             {
-                return BadRequest("stock does not exist");
+                return BadRequest("stock already exists");
             }
+
+            var username = User.getUserName();
+            var appUser = await _userManager.FindByNameAsync(username);
+            if(appUser ==null) return NotFound("not dound user");
+
             var CreatedComment = comment.ToCommentFromCreate(StockId);
+            CreatedComment.AppUser = appUser;
             await _CommentRepo.CreateAsync(CreatedComment);
             return CreatedAtAction(nameof(GetById), new { id = CreatedComment.Id }, CreatedComment.ToCommentDto());
         }

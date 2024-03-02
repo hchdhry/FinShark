@@ -34,12 +34,12 @@ namespace API.Repository{
 
         public async Task<List<Comment>> GetAll()
         {
-           return await _DBContext.Comments.ToListAsync();
+           return await _DBContext.Comments.Include(a => a.AppUser).ToListAsync();
         }
 
         public async Task<Comment> GetAsync(int id)
         {
-            return await _DBContext.Comments.FindAsync(id);
+            return await _DBContext.Comments.Include(a => a.AppUser).FirstOrDefaultAsync(x => x.Id == id);
         }
 
         public async Task<Comment> UpdateAsync(int id, Comment comment)
