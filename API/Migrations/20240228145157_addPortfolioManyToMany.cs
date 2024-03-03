@@ -64,7 +64,7 @@ namespace API.Migrations
                     LastDiv = table.Column<decimal>(type: "numeric(18,2)", nullable: false),
                     Purchase = table.Column<decimal>(type: "numeric(18,2)", nullable: false),
                     Industry = table.Column<string>(type: "text", nullable: false),
-                    MarkeyCap = table.Column<long>(type: "bigint", nullable: false)
+                    MarketCap = table.Column<long>(type: "bigint", nullable: false)
                 },
                 constraints: table =>
                 {

@@ -21,11 +21,14 @@ namespace API.Controllers{
     private readonly IStockRepository _StockRepo;
     private readonly UserManager<AppUser> _userManager;
 
-    public CommentController(ICommentRepository commentRepository, IStockRepository stockRepository,UserManager<AppUser> userManager)
+    private readonly IFMPService _fMPService;
+
+    public CommentController(ICommentRepository commentRepository, IStockRepository stockRepository,UserManager<AppUser> userManager, IFMPService fMP)
     {
         _StockRepo   = stockRepository;
         _CommentRepo = commentRepository;
         _userManager = userManager;
+        _fMPService = fMP;
     }
 
     [HttpGet("{id}")]
@@ -60,28 +63,38 @@ namespace API.Controllers{
 
 
         }
-        [HttpPost("{StockId}")]
-        [Authorize]
-        public async Task<IActionResult> Create([FromRoute]int StockId,[FromBody]CreateCommentDto comment)
+
+        [HttpPost]
+        [Route("{symbol:alpha}")]
+        public async Task<IActionResult> Create([FromRoute] string symbol, CreateCommentDto commentDto)
         {
             if (!ModelState.IsValid)
-            {
                 return BadRequest(ModelState);
-            }
-            if (!await _StockRepo.StockExistsAsync(StockId))
+
+            var stock = await _StockRepo.getBySymbol(symbol);
+
+            if (stock == null)
             {
-                return BadRequest("stock already exists");
+                stock = await _fMPService.FindStockBySymbolAsync(symbol);
+                if (stock == null)
+                {
+                    return BadRequest("Stock does not exists");
+                }
+                else
+                {
+                    await _StockRepo.CreateAsync(stock);
+                }
             }
 
             var username = User.getUserName();
             var appUser = await _userManager.FindByNameAsync(username);
-            if(appUser ==null) return NotFound("not dound user");
 
-            var CreatedComment = comment.ToCommentFromCreate(StockId);
-            CreatedComment.AppUser = appUser;
-            await _CommentRepo.CreateAsync(CreatedComment);
-            return CreatedAtAction(nameof(GetById), new { id = CreatedComment.Id }, CreatedComment.ToCommentDto());
+            var commentModel = commentDto.ToCommentFromCreate(stock.Id);
+            commentModel.AppUser = appUser;
+            await _CommentRepo.CreateAsync(commentModel);
+            return CreatedAtAction(nameof(GetById), new { id = commentModel.Id }, commentModel.ToCommentDto());
         }
+
         [HttpDelete]
         [Route("id")]
         public async Task<IActionResult> Delete(int id)

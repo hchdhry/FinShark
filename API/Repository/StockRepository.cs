@@ -88,7 +88,7 @@ namespace API.Repository
             stockToUpdate.LastDiv = stock.LastDiv;
             stockToUpdate.Symbol = stock.Symbol;
             stockToUpdate.CompanyName = stock.CompanyName;
-            stockToUpdate.MarkeyCap = stock.MarkeyCap;
+            stockToUpdate.MarketCap = stock.MarketCap;
             stockToUpdate.Purchase = stock.Purchase;
             stockToUpdate.Industry = stock.Industry;
             await _DBContext.SaveChangesAsync();

@@ -17,7 +17,7 @@ public class Stock
 
     public string Industry { get; set; } = string.Empty;
 
-    public long MarkeyCap {get;set;}
+    public long MarketCap {get;set;}
 
     public List<Comment> comments{get;set;} = new List<Comment>();
     public List<Portfolio> portfolios { get; set; } = new List<Portfolio>();

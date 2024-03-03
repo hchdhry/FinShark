@@ -45,7 +45,7 @@ public class PortfolioRepository : IPortfolioRepository
             CompanyName = stock.stock.CompanyName, 
             Purchase = stock.stock.Purchase, 
             Industry = stock.stock.Industry,
-            MarkeyCap = stock.stock.MarkeyCap  
+            MarketCap = stock.stock.MarketCap  
             
         }).ToListAsync();
         

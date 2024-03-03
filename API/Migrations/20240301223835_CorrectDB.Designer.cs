@@ -157,7 +157,7 @@ namespace API.Migrations
                     b.Property<decimal>("LastDiv")
                         .HasColumnType("decimal(18,2)");
 
-                    b.Property<long>("MarkeyCap")
+                    b.Property<long>("MarketCap")
                         .HasColumnType("bigint");
 
                     b.Property<decimal>("Purchase")

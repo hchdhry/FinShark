@@ -22,7 +22,7 @@ namespace API.Dtos.Stock
         [MaxLength(10, ErrorMessage = "Industry cannot be over 10 characters")]
         public string Industry { get; set; } = string.Empty;
         [Range(1, 5000000000)]
-        public long MarkeyCap { get; set; }
+        public long MarketCap { get; set; }
 
     }
 }
