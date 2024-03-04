@@ -10,6 +10,7 @@ using API.interfaces;
 using Microsoft.AspNetCore.Identity;
 using API.Extensions;
 using Microsoft.AspNetCore.Authorization;
+using API.Helpers;
 
 
 namespace API.Controllers{
@@ -47,13 +48,14 @@ namespace API.Controllers{
     }
 
         [HttpGet]
-        public async Task<IActionResult> GetAll()
+        [Authorize]
+        public async Task<IActionResult> GetAll([FromQuery]CommentQueryObject queryObject)
         {
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
             }
-            var allComments = await _CommentRepo.GetAll();
+            var allComments = await _CommentRepo.GetAll(queryObject);
             if (allComments == null)
             {
                 return NotFound();

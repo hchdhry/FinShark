@@ -1,4 +1,5 @@
 ﻿using API.Dtos.Comment;
+using API.Helpers;
 using API.Models;
 using Microsoft.EntityFrameworkCore.Update.Internal;
 
@@ -7,7 +8,7 @@ namespace API.interfaces{
 public interface ICommentRepository
 {
 
-    public Task<List<Comment>> GetAll();
+    public Task<List<Comment>> GetAll(CommentQueryObject queryObject);
 
     public Task<Comment> GetAsync(int id);
 

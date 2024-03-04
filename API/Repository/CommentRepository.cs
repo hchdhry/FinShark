@@ -2,6 +2,7 @@
 using API.Models;
 using API.Data;
 using Microsoft.EntityFrameworkCore;
+using API.Helpers;
 namespace API.Repository{
 
     public class CommentRepository : ICommentRepository
@@ -32,9 +33,23 @@ namespace API.Repository{
             
         }
 
-        public async Task<List<Comment>> GetAll()
+        public async Task<List<Comment>> GetAll(CommentQueryObject queryObject)
         {
-           return await _DBContext.Comments.Include(a => a.AppUser).ToListAsync();
+           var comment =  _DBContext.Comments.Include(a => a.AppUser).AsQueryable();
+
+           if(!string.IsNullOrWhiteSpace(queryObject.Symbol))
+           {
+                comment = comment.Where(c => c.Stock.Symbol.ToLower() == queryObject.Symbol.ToLower());
+           };
+
+           if(queryObject.isdescending == true)
+           {
+                comment = comment.OrderByDescending(c => c.CreatedOn);
+           }
+
+
+           return await comment.ToListAsync();
+           
         }
 
         public async Task<Comment> GetAsync(int id)
